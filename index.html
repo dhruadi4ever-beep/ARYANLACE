@@ -561,6 +561,12 @@
             <div class="brand-logo">ARYAN LACE</div>
             <div class="brand-badge">Console MVP</div>
         </div>
+		
+		<button class="action-hub-btn" onclick="clearEntireDatabase()">
+			<i class="fa-solid fa-trash"></i> Clear Full Database
+		</button>
+
+
         <nav>
             <ul class="nav-menu" id="topNavMenu">
                 <li><a class="nav-link-item active" onclick="routeToPanel('dashboard')"><i class="fa-solid fa-chart-line"></i>&nbsp; Dashboard</a></li>
@@ -912,6 +918,33 @@
                 rateInput.value = "250";
             }
         }
+		
+		
+		function clearEntireDatabase() {
+
+			if (!confirm('This will permanently delete ALL records and reset the system. Continue?')) {
+				return;
+			}
+
+			state = {
+				employees: [],
+				attendance: [],
+				jobwork: [],
+				vayar: [],
+				advances: [],
+				activities: []
+			};
+
+			localStorage.removeItem('al_mvp_datastore');
+
+			saveSystemStateToStorage();
+
+			refreshCoreTerminalWorkspaceUI();
+
+			dispatchNotificationToast('Full database cleared successfully.');
+		}
+		
+
 
         function toggleSystemThemeMode() {
             document.body.classList.toggle('dark');
