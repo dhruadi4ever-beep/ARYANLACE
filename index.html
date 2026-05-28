@@ -540,7 +540,7 @@
     <div id="authShield">
         <div class="auth-card">
             <h1 style="color:var(--primary); font-size:2rem; margin-bottom:0.5rem; font-weight:800; letter-spacing:1px;">ARYAN LACE</h1>
-            <p style="color:var(--text-muted); text-transform:uppercase; font-size:0.75rem; letter-spacing:2px; margin-bottom:2rem;">3/2324/1 Khangadstreet Salabatpura Surat</p>
+            <p style="color:var(--text-muted); text-transform:uppercase; font-size:0.75rem; letter-spacing:2px; margin-bottom:2rem;">PREMIUM LACES</p>
             <form onsubmit="executeGatewayValidation(event)">
                 <div class="form-row-group" style="text-align:left;">
                     <label style="color:#aaa;">USERNAME</label>
@@ -550,7 +550,7 @@
                     <label style="color:#aaa;">PASSWORD</label>
                     <input type="password" id="gatePass" class="core-input-control" style="background:#222; border-color:#444; color:white;" value="admin" required>
                 </div>
-                <button type="submit" class="btn-luxury-solid" style="width:100%; padding:0.85rem; margin-top:1rem;">LOGIN</button>
+                <button type="submit" class="btn-luxury-solid" style="width:100%; padding:0.85rem; margin-top:1rem;">Access Terminal</button>
             </form>
         </div>
     </div>
@@ -586,7 +586,7 @@
         <div id="view-dashboard" class="view-panel">
             <div class="section-header">
                 <div>
-                    <h1>Factory Control Center</h1>
+                    <h1>Factory Department</h1>
                     <p style="color:var(--text-muted); font-size:0.9rem;">Real-time metrics, quick actions, and transaction timelines.</p>
                 </div>
             </div>
@@ -790,7 +790,49 @@
             </div>
             
             <div class="modal-form-content">
-        
+                
+                <!-- Form Row Layout A: Worker Registration -->
+                <form id="innerFormWorker" class="hidden" onsubmit="commitWorkerForm(event)">
+                    <div class="form-row-group"><label>Full Staff Employee Name</label><input type="text" id="wFormName" class="core-input-control" placeholder="e.g., Ravi Patel" required></div>
+                    <div class="form-row-group"><label>Assigned Operational Classification Group</label><select id="wFormRole" class="core-input-control"><option value="Karigar">Karigar (Shift Clocks Tracking)</option><option value="Jobworker">Jobworker (Piecework Distributed Units)</option><option value="Vayar Operator">Vayar Operator (Precious Yarn Weighments)</option></select></div>
+                </form>
+
+                <!-- Form Row Layout B: Attendance Punch Log -->
+                <form id="innerFormShift" class="hidden" onsubmit="commitShiftForm(event)">
+                    <div class="form-row-group"><label>Calendar Operations Date</label><input type="date" id="sFormDate" class="core-input-control" required></div>
+                    <div class="form-row-group"><label>Target Active Karigar Staff</label><select id="sFormEmp" class="core-input-control" required></select></div>
+                    <div class="form-row-group" style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;"><div style="display:flex; flex-direction:column;"><label>In Punch Time</label><input type="time" id="sFormIn" class="core-input-control" required></div><div style="display:flex; flex-direction:column;"><label>Out Punch Time</label><input type="time" id="sFormOut" class="core-input-control" required></div></div>
+                </form>
+
+                <!-- Form Row Layout C: Vayar Material Allocation -->
+                <form id="innerFormLot" class="hidden" onsubmit="commitLotForm(event)">
+                    <div class="form-row-group"><label>Issue Date Timestamp</label><input type="date" id="vFormDate" class="core-input-control" required></div>
+                    <div class="form-row-group"><label>Generated Lot Sequence Reference ID</label><input type="text" id="vFormLotId" class="core-input-control" readonly style="background:var(--background); font-weight:700;"></div>
+                    <div class="form-row-group"><label>Target Specialized Material Operator</label><select id="vFormEmp" class="core-input-control" required></select></div>
+                    <div class="form-row-group" style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;"><div style="display:flex; flex-direction:column;"><label>Vayar Allocated Core Mass (KG)</label><input type="number" step="0.001" id="vFormVayar" class="core-input-control" placeholder="0.000" required></div><div style="display:flex; flex-direction:column;"><label>Accompanying Support Spool Rolls (KG)</label><input type="number" step="0.001" id="vFormRolls" class="core-input-control" placeholder="0.000" required></div></div>
+                </form>
+
+                <!-- Form Row Layout D: Return Scales Weighment -->
+                <form id="innerFormReturn" class="hidden" onsubmit="commitReturnWeighmentForm(event)">
+                    <input type="hidden" id="retFormIndexPointer">
+                    <div class="form-row-group"><label>Total Output Scales Mass Payload Returned (KG)</label><input type="number" step="0.001" id="retFormQuantity" class="core-input-control" placeholder="0.000" required></div>
+                </form>
+
+                <!-- Form Row Layout E: Jobwork Production Transfer -->
+                <form id="innerFormJobwork" class="hidden" onsubmit="commitJobworkForm(event)">
+                    <div class="form-row-group"><label>Filing Manifest Entry Date</label><input type="date" id="jFormDate" class="core-input-control" required></div>
+                    <div class="form-row-group"><label>Target Registered Jobwork Contractor</label><select id="jFormEmp" class="core-input-control" required></select></div>
+                    <div class="form-row-group"><label>Total Pattern Lace Bunches Transferred</label><input type="number" id="jFormBunches" class="core-input-control" placeholder="0" min="1" required></div>
+                    <div class="form-row-group"><label>Complementary Unit Items Dispatched Alongside</label><select id="jFormComp" class="core-input-control"><option value="NO">No Complement Allocation</option><option value="YES">Yes Complement Authorized</option></select></div>
+                </form>
+
+                <!-- Form Row Layout F: Financial Advance Allocation -->
+                <form id="innerFormAdvance" class="hidden" onsubmit="commitAdvanceForm(event)">
+                    <div class="form-row-group"><label>Disbursal Transaction Date</label><input type="date" id="aFormDate" class="core-input-control" required></div>
+                    <div class="form-row-group"><label>Target Worker Recipient Beneficiary</label><select id="aFormEmp" class="core-input-control" required></select></div>
+                    <div class="form-row-group"><label>Advance Value Amount (₹)</label><input type="number" id="aFormAmt" class="core-input-control" placeholder="₹ Value in INR" required></div>
+                    <div class="form-row-group"><label>Audit Remarks Memo</label><input type="text" id="aFormNotes" class="core-input-control" placeholder="e.g., Festival Outlay Provision"></div>
+                </form>
 
             </div>
 
@@ -912,33 +954,6 @@
                 rateInput.value = "250";
             }
         }
-		
-		
-		function clearEntireDatabase() {
-
-			if (!confirm('This will permanently delete ALL records and reset the system. Continue?')) {
-				return;
-			}
-
-			state = {
-				employees: [],
-				attendance: [],
-				jobwork: [],
-				vayar: [],
-				advances: [],
-				activities: []
-			};
-
-			localStorage.removeItem('al_mvp_datastore');
-
-			saveSystemStateToStorage();
-
-			refreshCoreTerminalWorkspaceUI();
-
-			dispatchNotificationToast('Full database cleared successfully.');
-		}
-		
-
 
         function toggleSystemThemeMode() {
             document.body.classList.toggle('dark');
